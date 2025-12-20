@@ -1,0 +1,28 @@
+# Build artifacts
+.pio/
+.pioenv/
+.piolib/
+.clang_complete
+.gcc-flags.json
+*.pyc
+__pycache__/
+
+# Executables
+*.elf
+*.hex
+*.bin
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Local config (secrets)
+src/config.h
+devices.txt
+*.log

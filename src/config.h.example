@@ -1,0 +1,39 @@
+// ============================================================
+// ESP32 Wake-on-LAN Telegram Bot - Configuration Template
+// ============================================================
+// Copy this file to config.h and fill in your values
+// IMPORTANT: config.h is already in .gitignore, so your secrets are safe!
+// ============================================================
+
+#ifndef CONFIG_H
+#define CONFIG_H"
+
+// ============== TELEGRAM CONFIG ==============
+// Get your bot token from @BotFather on Telegram
+#define BOT_TOKEN "YOUR_BOT_TOKEN_HERE"
+
+// Get your Telegram User ID by messaging @userinfobot
+// Only this ID can control the ESP32 (security feature)
+#define ALLOWED_ID "YOUR_TELEGRAM_USER_ID"
+
+// ============== WIFI CONFIG ==============
+const char* WIFI_SSID = "YOUR_WIFI_SSID";
+const char* WIFI_PASSWORD = "YOUR_WIFI_PASSWORD";
+
+// ============== DEVICE LIST ==============
+// Add your devices after running scan_network.py
+// Format: {"DEVICE_NAME", "MAC:ADDRESS:HERE", "IP.ADDRESS.HERE"}
+// Maximum 20 devices supported
+
+#define MAX_DEVICES 20
+#define WOL_PORT 9
+#define PING_TIMEOUT 2000
+
+// Device structure - populated in main.cpp
+struct DeviceConfig {
+    const char* name;
+    const char* mac;
+    const char* ip;
+};
+
+#endif // CONFIG_H
