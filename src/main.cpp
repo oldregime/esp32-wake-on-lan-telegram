@@ -28,14 +28,27 @@ WiFiClientSecure client;
 UniversalTelegramBot bot(BOT_TOKEN, client);
 
 // ============== DEVICE LIST ==============
-// Add your devices here after running scan_network.py
-// Format: {"DEVICE_NAME", "AA:BB:CC:DD:EE:FF", "192.168.1.xx"}
+// Discovered devices with detected types:
+// - Windows PCs: Have RDP (3389) and SMB (445) ports open
+// - Linux/Mac: Have SSH (22) port open
+// - Servers: Have HTTP (80/443) ports open
 DeviceConfig devices[MAX_DEVICES] = {
-    // Example: {"GamingPC", "AA:BB:CC:DD:EE:FF", "192.168.1.101"},
-    // Add your devices below...
+    {"Router", "A8:88:1F:1F:AB:4A", "192.168.29.1"},
+    {"ESP32", "40:91:51:FC:80:64", "192.168.29.145"},
+    {"WindowsPC3", "98:FA:9B:F4:54:ED", "192.168.29.167"},
+    {"ServerPC4", "DC:C2:C9:5A:76:2E", "192.168.29.179"},
+    {"WindowsPC5", "9C:B6:54:F3:6E:60", "192.168.29.193"},
+    {"WindowsPC6", "B4:2E:99:EB:23:7D", "192.168.29.197"},
+    {"LinuxPC7", "A0:B3:CC:F9:5E:45", "192.168.29.20"},
+    {"WindowsPC8", "D8:9E:F3:04:95:DD", "192.168.29.235"},
+    {"Device9", "FA:62:B1:4B:25:07", "192.168.29.25"},
+    {"WindowsPC10", "54:BF:64:6D:DA:D8", "192.168.29.45"},
+    {"WindowsPC11", "C8:D9:D2:10:2B:4D", "192.168.29.54"},
+    {"Device12", "70:4D:7B:6A:EF:09", "192.168.29.58"},
+    {"WindowsPC13", "00:25:AB:98:85:13", "192.168.29.80"},
 };
 
-int deviceCount = 0;  // Set to number of devices you added above
+int deviceCount = 13;
 
 // ============== HELPER FUNCTIONS ==============
 bool parseMac(const char* macStr, uint8_t* mac) {

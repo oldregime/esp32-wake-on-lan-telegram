@@ -1,0 +1,3 @@
+// Add these devices to your ESP32 config in main.cpp
+// Format: {"NAME", "MAC", "IP"},
+

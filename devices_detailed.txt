@@ -1,0 +1,120 @@
+ESP32 WoL - Discovered Devices (Detailed)
+================================================================================
+
+Device 1:
+  IP Address: 192.168.29.1
+  MAC Address: A8:88:1F:1F:AB:4A
+  Hostname: ?
+  NetBIOS Name: -
+  Vendor: Unknown
+  Device Type: Web Server
+  Open Ports: [80, 443, 8080]
+
+Device 2:
+  IP Address: 192.168.29.145
+  MAC Address: 40:91:51:FC:80:64
+  Hostname: ?
+  NetBIOS Name: -
+  Vendor: Unknown
+  Device Type: PC/Server
+  Open Ports: None detected
+
+Device 3:
+  IP Address: 192.168.29.167
+  MAC Address: 98:FA:9B:F4:54:ED
+  Hostname: ?
+  NetBIOS Name: -
+  Vendor: Unknown
+  Device Type: RDP/Windows, SMB/Windows
+  Open Ports: [445, 3389]
+
+Device 4:
+  IP Address: 192.168.29.179
+  MAC Address: DC:C2:C9:5A:76:2E
+  Hostname: ?
+  NetBIOS Name: -
+  Vendor: Unknown
+  Device Type: Web Server
+  Open Ports: [80, 443]
+
+Device 5:
+  IP Address: 192.168.29.193
+  MAC Address: 9C:B6:54:F3:6E:60
+  Hostname: ?
+  NetBIOS Name: -
+  Vendor: Unknown
+  Device Type: RDP/Windows, SMB/Windows
+  Open Ports: [445, 3389]
+
+Device 6:
+  IP Address: 192.168.29.197
+  MAC Address: B4:2E:99:EB:23:7D
+  Hostname: ?
+  NetBIOS Name: -
+  Vendor: Unknown
+  Device Type: Web Server, RDP/Windows, SMB/Windows
+  Open Ports: [80, 445, 3389]
+
+Device 7:
+  IP Address: 192.168.29.20
+  MAC Address: A0:B3:CC:F9:5E:45
+  Hostname: ?
+  NetBIOS Name: -
+  Vendor: Unknown
+  Device Type: Web Server, SSH, SMB/Windows
+  Open Ports: [22, 80, 443, 445]
+
+Device 8:
+  IP Address: 192.168.29.235
+  MAC Address: D8:9E:F3:04:95:DD
+  Hostname: ?
+  NetBIOS Name: -
+  Vendor: Unknown
+  Device Type: RDP/Windows, SMB/Windows
+  Open Ports: [445, 3389]
+
+Device 9:
+  IP Address: 192.168.29.25
+  MAC Address: FA:62:B1:4B:25:07
+  Hostname: ?
+  NetBIOS Name: -
+  Vendor: Unknown
+  Device Type: PC/Server
+  Open Ports: None detected
+
+Device 10:
+  IP Address: 192.168.29.45
+  MAC Address: 54:BF:64:6D:DA:D8
+  Hostname: ?
+  NetBIOS Name: -
+  Vendor: Unknown
+  Device Type: Web Server, RDP/Windows, SMB/Windows
+  Open Ports: [80, 445, 3389]
+
+Device 11:
+  IP Address: 192.168.29.54
+  MAC Address: C8:D9:D2:10:2B:4D
+  Hostname: ?
+  NetBIOS Name: -
+  Vendor: Unknown
+  Device Type: RDP/Windows, SMB/Windows
+  Open Ports: [445, 3389]
+
+Device 12:
+  IP Address: 192.168.29.58
+  MAC Address: 70:4D:7B:6A:EF:09
+  Hostname: ?
+  NetBIOS Name: -
+  Vendor: Unknown
+  Device Type: SMB/Windows
+  Open Ports: [445]
+
+Device 13:
+  IP Address: 192.168.29.80
+  MAC Address: 00:25:AB:98:85:13
+  Hostname: ?
+  NetBIOS Name: -
+  Vendor: Unknown
+  Device Type: RDP/Windows, SMB/Windows
+  Open Ports: [445, 3389]
+
