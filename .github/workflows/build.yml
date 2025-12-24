@@ -1,0 +1,54 @@
+name: Firmware Build
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+
+jobs:
+  build:
+    name: Compile ESP32 Firmware
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Cache PlatformIO packages
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.platformio/.cache
+            ~/.platformio/packages
+          key: ${{ runner.os }}-pio-${{ hashFiles('platformio.ini') }}
+          restore-keys: |
+            ${{ runner.os }}-pio-
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install PlatformIO CLI
+        run: pip install platformio
+
+      - name: Create config.h from example
+        # CI uses the example template — no real credentials needed for compile check
+        run: cp src/config.h.example src/config.h
+
+      - name: Build firmware (CI environment — compile only, no upload)
+        run: pio run -e ci
+
+      - name: Show firmware size
+        run: |
+          echo "=== Firmware binary size ==="
+          find .pio/build/ci -name "*.bin" -exec ls -lh {} \;
+
+      - name: Upload build artifact
+        uses: actions/upload-artifact@v4
+        if: success()
+        with:
+          name: esp32-wol-firmware-${{ github.sha }}
+          path: .pio/build/ci/firmware.bin
+          retention-days: 30
