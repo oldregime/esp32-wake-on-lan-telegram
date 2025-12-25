@@ -25,6 +25,7 @@
 #include <vector>
 
 #include "config.h"
+#include "truenas.h"
 
 WiFiUDP udp;
 WiFiClientSecure client;
@@ -678,8 +679,8 @@ void handleNewMessages(int numNewMessages) {
         }
         
         if (text == "/start") {
-            String welcome = "🤖 ESP32 Wake-on-LAN Bot v2.1\n\n";
-            welcome += "Control your PCs remotely!\n\n";
+            String welcome = "🤖 ESP32 Wake-on-LAN Bot v2.2\n\n";
+            welcome += "Control your PCs remotely & manage TrueNAS!\n\n";
             welcome += "Commands:\n";
             welcome += "/list - Show all devices\n";
             welcome += "/status - Check all devices\n";
@@ -691,9 +692,18 @@ void handleNewMessages(int numNewMessages) {
             welcome += "/uptime - Show ESP32 uptime\n";
             welcome += "/stats - Show wake statistics\n";
             welcome += "/logs - Show recent events\n";
-            welcome += "/truenas - Check TrueNAS status\n";
             welcome += "/setmac <name> <mac> - Update device MAC\n";
-            welcome += "/help - Show help\n";
+            welcome += "\n💿 TrueNAS API Control:\n";
+            welcome += "/nasstatus - Get TrueNAS system info via API\n";
+            welcome += "/naspools - Get TrueNAS pool status via API\n";
+            welcome += "/nasshutdown - Shut down TrueNAS via API\n";
+            welcome += "/nasreboot - Reboot TrueNAS via API\n";
+            welcome += "/truenas - Check TrueNAS status (legacy ping check)\n";
+            welcome += "\n📅 Scheduling:\n";
+            welcome += "/schedulewake <name> <HH:MM> - Set daily wake time\n";
+            welcome += "/clearschedule <name> - Remove daily wake schedule\n";
+            welcome += "/schedules - List active schedules\n";
+            welcome += "\n/help - Show help\n";
             bot.sendMessage(chat_id, welcome);
         }
         else if (text == "/help") {
@@ -708,8 +718,17 @@ void handleNewMessages(int numNewMessages) {
             help += "/uptime - Show ESP32 uptime\n";
             help += "/stats - Show wake statistics\n";
             help += "/logs - Show recent event logs\n";
-            help += "/truenas - Check TrueNAS backup system\n";
-            help += "/setmac <name> <mac> - Update device MAC\n";
+            help += "/setmac <name> <mac> - Update device MAC\n\n";
+            help += "💿 TrueNAS API Commands:\n";
+            help += "/nasstatus - System health and uptime info\n";
+            help += "/naspools - Storage pool health & free capacity\n";
+            help += "/nasshutdown - ACPI shutdown TrueNAS system\n";
+            help += "/nasreboot - Reboot TrueNAS system\n";
+            help += "/truenas - Legacy ping-based backup system check\n\n";
+            help += "📅 Wake Scheduling:\n";
+            help += "/schedulewake <name> <HH:MM> - Add/update schedule\n";
+            help += "/clearschedule <name> - Delete schedule\n";
+            help += "/schedules - List all schedules\n";
             bot.sendMessage(chat_id, help);
         }
         else if (text == "/list") {
@@ -844,6 +863,53 @@ void handleNewMessages(int numNewMessages) {
                 bot.sendMessage(chat_id, "❌ Device not found: " + deviceName);
             }
         }
+        else if (text == "/nasstatus") {
+            bot.sendMessage(chat_id, getTrueNASStatus());
+        }
+        else if (text == "/naspools") {
+            bot.sendMessage(chat_id, getPoolStatus());
+        }
+        else if (text == "/nasshutdown" || text == "/shutdown") {
+            bot.sendMessage(chat_id, shutdownTrueNAS());
+        }
+        else if (text == "/nasreboot" || text == "/reboot") {
+            bot.sendMessage(chat_id, rebootTrueNAS());
+        }
+        else if (text == "/schedules") {
+            bot.sendMessage(chat_id, listSchedules());
+        }
+        else if (text.startsWith("/schedulewake ")) {
+            String args = text.substring(14);
+            args.trim();
+            int firstSpace = args.indexOf(' ');
+            if (firstSpace < 0) {
+                bot.sendMessage(chat_id, "Usage: /schedulewake <name> <HH:MM>\nExample: /schedulewake TrueNAS 08:30");
+            } else {
+                String devName = args.substring(0, firstSpace);
+                String timeStr = args.substring(firstSpace + 1);
+                timeStr.trim();
+                
+                int colon = timeStr.indexOf(':');
+                if (colon < 0) {
+                    bot.sendMessage(chat_id, "❌ Invalid time format. Use HH:MM (e.g. 08:30)");
+                } else {
+                    int hh = timeStr.substring(0, colon).toInt();
+                    int mm = timeStr.substring(colon + 1).toInt();
+                    String response = addScheduledWake(devName.c_str(), hh, mm);
+                    bot.sendMessage(chat_id, response);
+                }
+            }
+        }
+        else if (text.startsWith("/clearschedule ")) {
+            String devName = text.substring(15);
+            devName.trim();
+            if (devName.length() == 0) {
+                bot.sendMessage(chat_id, "Usage: /clearschedule <name>\nExample: /clearschedule TrueNAS");
+            } else {
+                String response = removeScheduledWake(devName.c_str());
+                bot.sendMessage(chat_id, response);
+            }
+        }
         else {
             bot.sendMessage(chat_id, "Unknown command. Send /help for available commands.");
         }
@@ -862,6 +928,7 @@ void setup() {
     
     initLittleFS();
     loadStats();
+    loadSchedules();
     connectWiFi();
     initTime();
     
@@ -886,6 +953,7 @@ void loop() {
     }
     
     checkScheduledTasks();
+    checkScheduledWakes(bot, ALLOWED_ID);
     
     static unsigned long lastReconnectCheck = 0;
     if (millis() - lastReconnectCheck > 14400000) {

@@ -65,12 +65,30 @@ const char* WIFI_PASSWORD = "YOUR_WIFI_PASSWORD";
 #define TRUENAS_CHECK_END_MINUTE  35
 
 // ─────────────────────────────────────────
-// TRUENAS DEVICE
+// TRUENAS DEVICE & REST API
 // ─────────────────────────────────────────
 
 // The name string must exactly match one entry in the devices[] array
 // in main.cpp — case sensitive
 #define TRUENAS_DEVICE_NAME "TrueNAS"
+
+// TrueNAS IP Address or Hostname (do NOT include http:// or https://)
+#define TRUENAS_IP          "192.168.29.179"
+
+// Protocol for API calls (true = HTTPS, false = HTTP).
+// Note: TrueNAS usually redirects HTTP to HTTPS on port 443.
+#define TRUENAS_USE_HTTPS   true
+
+// Choose ONE authorization method below:
+// METHOD 1: API Key (Recommended)
+// Create in TrueNAS Web UI -> Gear Icon -> API Keys.
+#define TRUENAS_API_KEY     "YOUR_TRUENAS_API_KEY_HERE"
+
+// METHOD 2: Basic Auth (Fallback if TRUENAS_API_KEY is commented out)
+// To use Username/Password, COMMENT OUT the TRUENAS_API_KEY definition above.
+// #define TRUENAS_USERNAME    "admin"
+// #define TRUENAS_PASSWORD    "YOUR_TRUENAS_PASSWORD"
+
 
 // ─────────────────────────────────────────
 // DEVICE LIMITS & NETWORK
